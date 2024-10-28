@@ -10,7 +10,7 @@ local removedSigns = {}
 --Events--
 ----------
 
-RegisterNetEvent('qb-signrobbery:server:RemoveSign', function(signInfo, signObject, signCoords, signHash)
+RegisterNetEvent('signrobbery:server:RemoveSign', function(signInfo, signObject, signCoords, signHash)
 	if exports.ox_inventory:CanCarryItem(source, signInfo.Item, 1) then
         exports.ox_inventory:AddItem(source, signInfo.Item, 1)
 		TriggerClientEvent('signrobbery:client:RemoveSign', -1, signInfo, signCoords)

@@ -2,7 +2,7 @@ Config = Config or {}
 
 Config.GenericStuff = {
     Debug = false,
-    SignCutTimeInSeconds = 3, -- How long it takes to cut down a sign
+    SignCutTimeInSeconds = 2, -- How long it takes to cut down a sign
 }
 
 Config.Signs = { -- Add signs using the same below format that aren't already here
