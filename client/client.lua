@@ -15,6 +15,8 @@ local signObject = nil
 ----------
 
 RegisterNetEvent('signrobbery:client:DisplaySign', function(item)
+    local player = cache.ped
+
     if sawIsEquipped then
         lib.notify({
             title = 'Unable',
@@ -23,8 +25,7 @@ RegisterNetEvent('signrobbery:client:DisplaySign', function(item)
         })
         return
     end
-    
-    local player = cache.ped
+
     local playerCoords = GetEntityCoords(player)
 
     if not holdingSign then
@@ -33,6 +34,7 @@ RegisterNetEvent('signrobbery:client:DisplaySign', function(item)
         signObject = CreateObject(signModel, playerCoords.x, playerCoords.y, playerCoords.z, true, true, false)
         AttachEntityToEntity(signObject, player, GetPedBoneIndex(player, 57005), 0.10, -1.0, 0.0, -90.0, -250.0, 0.0, true, true, false, false, true, true)
         TaskPlayAnim(player, holdingAnim, "base", 4.0, 1.0, -1, 49, 0, 0, 0, 0)
+
         SetModelAsNoLongerNeeded(signModel)
         RemoveAnimDict(holdingAnim)
         holdingSign = true
@@ -55,6 +57,8 @@ RegisterNetEvent("signrobbery:client:RemoveSign", function(signInfo, signCoords)
 end)
 
 RegisterNetEvent('signrobbery:client:EquipBladeSaw', function()
+    local player = cache.ped
+
     if holdingSign then
         lib.notify({
             title = 'Unable',
@@ -64,20 +68,21 @@ RegisterNetEvent('signrobbery:client:EquipBladeSaw', function()
         return
     end
 
-    local player = cache.ped
     local coords = GetEntityCoords(player)
 
     if not sawIsEquipped then
         sawIsEquipped = true
         searchingForSign = true
 
-        lib.requestModel('prop_tool_consaw', 60000)
-        lib.requestAnimDict('weapons@heavy@minigun')
+        local sawModel = lib.requestModel('prop_tool_consaw', 60000)
+        local sawAnim = lib.requestAnimDict('weapons@heavy@minigun')
 
-        bladeSaw = CreateObject('prop_tool_consaw', coords,  true,  true, true)
+        bladeSaw = CreateObject(sawModel, coords,  true,  true, true)
         AttachEntityToEntity(bladeSaw, player, GetPedBoneIndex(player, 36029), -0.3, 0.0, -0.15, 180.0, 180.0, 0.0, true, true, false, true, 1, true)
-        SetModelAsNoLongerNeeded(bladeSaw)
-        TaskPlayAnim(player, 'weapons@heavy@minigun', "idle_2_aim_right_med", 8.0, 1.0, -1, 50, 0, 0, 0, 0)
+        TaskPlayAnim(player, sawAnim, "idle_2_aim_right_med", 8.0, 1.0, -1, 50, 0, 0, 0, 0)
+
+        SetModelAsNoLongerNeeded(sawModel)
+        RemoveAnimDict(sawAnim)
         TriggerEvent('signrobbery:client:CheckForNearbySigns')
     else
         ClearPedTasks(player)
