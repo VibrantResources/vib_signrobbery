@@ -28,12 +28,13 @@ RegisterNetEvent('signrobbery:client:DisplaySign', function(item)
     local playerCoords = GetEntityCoords(player)
 
     if not holdingSign then
-        lib.requestModel(item.client.model, 60000)
-        lib.requestAnimDict('amb@world_human_janitor@male@base')
-        signObject = CreateObject(item.client.model, playerCoords.x, playerCoords.y, playerCoords.z, true, true, false)
+        local signModel = lib.requestModel(item.client.model, 60000)
+        local holdingAnim = lib.requestAnimDict('amb@world_human_janitor@male@base')
+        signObject = CreateObject(signModel, playerCoords.x, playerCoords.y, playerCoords.z, true, true, false)
         AttachEntityToEntity(signObject, player, GetPedBoneIndex(player, 57005), 0.10, -1.0, 0.0, -90.0, -250.0, 0.0, true, true, false, false, true, true)
-        TaskPlayAnim(player, "amb@world_human_janitor@male@base", "base", 4.0, 1.0, -1, 49, 0, 0, 0, 0)
-        SetModelAsNoLongerNeeded(signObject)
+        TaskPlayAnim(player, holdingAnim, "base", 4.0, 1.0, -1, 49, 0, 0, 0, 0)
+        SetModelAsNoLongerNeeded(signModel)
+        RemoveAnimDict(holdingAnim)
         holdingSign = true
     else
         ClearPedTasks(player)

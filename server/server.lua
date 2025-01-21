@@ -34,11 +34,6 @@ end)
 -------------
 
 lib.callback.register('signrobbery:server:GetRemovedSigns', function()
+    
 	return removedSigns
 end)
-
--- lib.addCommand('relog', {
---     help = 'Reload player',
--- }, function(source, args)
--- 	TriggerClientEvent('QBCore:Client:OnPlayerLoaded',    source)
--- end)
